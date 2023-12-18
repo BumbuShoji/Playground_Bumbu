@@ -1,0 +1,47 @@
+from PIL import Image
+
+def split_image_horizontally(image_path, num_columns):
+    try:
+        # 画像を開く
+        image = Image.open(image_path)
+        image = image.convert("RGB")
+
+        img_width, img_height = img.size
+
+        # 1列あたりの幅を計算
+        column_width = img_width // num_columns
+
+        # 分割した画像を保存するリスト
+        image_slices = []
+
+        # 画像を横に分割
+        for i in range(num_columns):
+            # 分割する範囲を計算
+            left = i * column_width
+            upper = 0
+            right = (i + 1) * column_width
+            lower = img_height
+
+            # 画像を切り取る
+            slice_img = img.crop((left, upper, right, lower))
+            image_slices.append(slice_img)
+
+            # 保存する場合はコメントを外す
+            # slice_img.save(f"slice_{i}.png")
+
+        return image_slices
+
+    except Exception as e:
+        print(f"エラー: {e}")
+        return None
+
+# 使用例
+image_path=input("input_image_path:")
+num_columns = 2  # 列数を指定してください
+
+slices = split_image_horizontally(image_path, num_columns)
+if slices:
+    print(f"{num_columns}列に分割された画像を取得しました。")
+    # 必要に応じて各部分画像を処理したり表示したりすることができます。
+else:
+    print("画像の分割に失敗しました。")

@@ -22,6 +22,9 @@ def danpane(image_path):
     a4_width = 210  # Width in mm
     a4_height = 297  # Height in mm
 
+    a4_width = a4_width*4  # Width in mm
+    a4_height = a4_height*4  # Height in mm
+
     # decide direction
     direction = input("方向（1:縦, 2:横）:")
 
@@ -46,13 +49,21 @@ def danpane(image_path):
             # Crop the subimage
             subimage = image.crop((left, upper, right, lower))
 
+            # Calculate the resize ratio
+            resize_ratio = max(a4_width / subimage.width, a4_height / subimage.height)
+
+            # Resize while maintaining aspect ratio and ensuring better quality
+            new_width = int(subimage.width * resize_ratio)
+            new_height = int(subimage.height * resize_ratio)
+            subimage = subimage.resize((new_width, new_height), Image.ANTIALIAS)
+
             # Construct the subimage file name
             subimage_file_name = f"{file_name_without_extension}_sub_{row}_{col}.jpg"
 
             # Save the subimage to the output folder
             subimage.save(os.path.join(output_folder, subimage_file_name))
 
-    #last_col
+    # Processing for the last column
     for row in range(num_rows):
         left = num_cols * subimage_width
         upper = row * subimage_height
@@ -62,7 +73,15 @@ def danpane(image_path):
         # Crop the subimage
         subimage = image.crop((left, upper, right, lower))
 
-        # Construct the subimage file name
+        # Calculate the resize ratio for the last column
+        resize_ratio = max(a4_width / subimage.width, a4_height / subimage.height)
+
+        # Resize while maintaining aspect ratio and ensuring better quality
+        new_width = int(subimage.width * resize_ratio)
+        new_height = int(subimage.height * resize_ratio)
+        subimage = subimage.resize((new_width, new_height), Image.ANTIALIAS)
+
+        # Construct the subimage file name for the last column
         subimage_file_name = f"{file_name_without_extension}_sub_{row}_{num_cols}.jpg"
 
         # Save the subimage to the output folder
@@ -71,31 +90,7 @@ def danpane(image_path):
     print(f"Subimages are saved in the '{output_folder}' folder.")
 
 
+
 image_path=input("input_image_path:")
 
 danpane(image_path)
-"""
-
-def process_images_in_folder(folder_path):
-    # List all files in the folder
-    image_files = [f for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f))]
-
-    # Filter image files (e.g., jpg, png, etc.)
-    image_files = [f for f in image_files if f.lower().endswith(('.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff'))]
-
-    if not image_files:
-        print("No image files found in the folder.")
-        return
-
-    for image_file in image_files:
-        image_path = os.path.join(folder_path, image_file)
-        danpane(image_path)
-
-# Input the folder path
-folder_path = input("Enter the folder path containing image files: ")
-
-if os.path.exists(folder_path):
-    process_images_in_folder(folder_path)
-else:
-    print("Folder not found.")
-"""
