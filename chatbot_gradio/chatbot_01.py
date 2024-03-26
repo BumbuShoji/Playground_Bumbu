@@ -27,9 +27,6 @@ from langchain.agents  import AgentExecutor
 
 from langchain.chains  import LLMChain
 
-os.environ["OPENAI_API_KEY"]  = "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"
-os.environ["GOOGLE_CSE_ID"]   = "2767b8fda4c8f44c6" 
-os.environ["GOOGLE_API_KEY"]  = "AIzaSyClYf2bVMVX5kVJIMNByssyw4Hz0DC_jFI"
 
 llm = OpenAI(temperature=0.5)
 
