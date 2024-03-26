@@ -4,7 +4,6 @@ from bs4 import BeautifulSoup
 import openai
 
 # Make sure to replace 'your_openai_api_key' with your actual API key
-openai.api_key = "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"
 
 def fetch_html_content(url):
     response = requests.get(url)
