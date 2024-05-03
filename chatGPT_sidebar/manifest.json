@@ -1,0 +1,17 @@
+{
+    "manifest_version": 3,
+    "name": "chatGPTsidebar",
+    "version": "1.0",
+    "description": "A sidebar extension with a chatbot powered by an internal API.",
+    "permissions": ["activeTab","sidePanel"],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "action": {
+      "default_icon": "icon.png",
+      "default_title": "chatGPTsidebar"
+    },
+    "side_panel": {
+        "default_path": "sidebar.html"
+    }
+  }
